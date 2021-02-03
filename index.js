@@ -1,5 +1,8 @@
 const getCoins = () => {
-  return window.coins;
+  setTimeout(() => {
+    debugger;
+    return window.coins;
+  }, 3000);
 };
 
 const getCoinNameBySymbol = (symbol) => {
