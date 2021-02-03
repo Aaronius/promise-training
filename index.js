@@ -1,18 +1,24 @@
 const getCoins = () => {
-  setTimeout(() => {
-    debugger;
-    return window.coins;
-  }, 3000);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(window.coins);
+    }, 3000);
+  });
 };
 
 const getCoinNameBySymbol = (symbol) => {
-  const coins = getCoins();
-  const coin = coins.find((coin) => {
-    return coin.symbol === symbol;
+  const coinsPromise = getCoins();
+  const coinNamePromise = coinsPromise.then((coins) => {
+    const coin = coins.find((coin) => {
+      return coin.symbol === symbol;
+    });
+    return coin.name;
   });
-  return coin.name;
+  return coinNamePromise;
 };
 
-const coinName = getCoinNameBySymbol("DOGE");
+const coinNamePromise = getCoinNameBySymbol("DOGE");
 
-document.body.innerText = coinName;
+coinNamePromise.then((coinName) => {
+  document.body.innerText = coinName;
+});
