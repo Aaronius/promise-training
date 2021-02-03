@@ -12,5 +12,4 @@ const getCoinNameBySymbol = (symbol) => {
 
 const coinName = getCoinNameBySymbol("DOGE");
 
-// debugger;
 document.body.innerText = coinName;
