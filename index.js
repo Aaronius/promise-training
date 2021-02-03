@@ -1,5 +1,5 @@
 const getCoins = () => {
-  return fetch("https://api.coinpaprika.com/v1/coins").then((response) => {
+  return fetch("https://api.coinpaprika.com/invalidendpoint").then((response) => {
     return response.json();
   });
 };
@@ -15,4 +15,6 @@ const getCoinNameBySymbol = (symbol) => {
 
 getCoinNameBySymbol("DOGE").then((coinName) => {
   document.body.innerText = coinName;
+}).catch((error) => {
+  document.body.innerText = error.message;
 });
