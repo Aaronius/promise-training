@@ -1,18 +1,18 @@
-const getCoins = () => {
+const getCoins = (callback) => {
   setTimeout(() => {
-    debugger;
-    return window.coins;
+    callback(window.coins)
   }, 3000);
 };
 
-const getCoinNameBySymbol = (symbol) => {
-  const coins = getCoins();
-  const coin = coins.find((coin) => {
-    return coin.symbol === symbol;
+const getCoinNameBySymbol = (symbol, callback) => {
+  getCoins((coins) => {
+    const coin = coins.find((coin) => {
+      return coin.symbol === symbol;
+    });
+    callback(coin.name);
   });
-  return coin.name;
 };
 
-const coinName = getCoinNameBySymbol("DOGE");
-
-document.body.innerText = coinName;
+getCoinNameBySymbol("DOGE", (coinName) => {
+  document.body.innerText = coinName;
+});
