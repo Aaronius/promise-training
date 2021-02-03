@@ -1,9 +1,9 @@
 const getCoins = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(window.coins);
-    }, 3000);
+  const fetchPromise = fetch("https://api.coinpaprika.com/v1/coins");
+  const fetchContentPromise = fetchPromise.then((response) => {
+    return response.json();
   });
+  return fetchContentPromise;
 };
 
 const getCoinNameBySymbol = (symbol) => {
