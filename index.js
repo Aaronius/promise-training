@@ -1,20 +1,44 @@
 const getCoins = () => {
-  return fetch("https://api.coinpaprika.com/invalidendpoint").then((response) => {
+  return fetch("https://api.coinpaprika.com/v1/coins").then((response) => {
     return response.json();
   });
 };
 
-const getCoinNameBySymbol = (symbol) => {
+const getCoinDetail = (coinId) => {
+  return fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`).then((response) => {
+    return response.json();
+  })
+}
+
+const findCoinBySymbol = (coins, symbol) => {
+  return coins.find((coin) => {
+    return coin.symbol === symbol;
+  });
+}
+
+const getCoinDescriptionsBySymbols = (symbols) => {
   return getCoins().then((coins) => {
-    const coin = coins.find((coin) => {
-      return coin.symbol === symbol;
+    const coinIds = symbols.map((symbol) => {
+      const coin = findCoinBySymbol(coins, symbol);
+      return coin.id;
+    })
+
+    const coinDetailPromises = coinIds.map((coinId) => {
+      return getCoinDetail(coinId);
     });
-    return coin.name;
+
+    return Promise.all(coinDetailPromises);
+  }).then((coinDetails) => {
+    const coinDescriptions = coinDetails.map((coinDetail) => {
+      return coinDetail.description;
+    });
+
+    return coinDescriptions;
   });
 };
 
-getCoinNameBySymbol("DOGE").then((coinName) => {
-  document.body.innerText = coinName;
+getCoinDescriptionsBySymbols(["DOGE", "BTC"]).then((coinDescriptions) => {
+  document.body.innerText = coinDescriptions.join('\n\n');
 }).catch((error) => {
   document.body.innerText = error.message;
 });
