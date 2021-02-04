@@ -10,3 +10,4 @@ A different branch exists for each step in the training, as follows:
 * `step4` - Using a promise for controlling asynchronous data flow
 * `step5` - Using fetch for loading data asynchronously
 * `step6` - Using promise chaining shorthand
+* `step7` - Catching errors
